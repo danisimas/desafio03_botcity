@@ -55,40 +55,56 @@ def main():
 
     products = read_json_file(r'resources\desafio03.json')
     
-    if not bot.find( "click", matching=0.97, waiting_time=10000):
-        not_found("click")
+    if not bot.find( "click_produto", matching=0.97, waiting_time=10000):
+        not_found("click_produto")
     bot.click()
     
     
+    bot.wait(5000)
     
     
-    # for product in products:
-    
-    if not bot.find( "item_number", matching=0.97, waiting_time=10000):
-        not_found("item_number")
-    bot.click()
-    bot.paste('0000000000001')
+    for product in products:
+        if not bot.find( "item_number", matching=0.97, waiting_time=10000):
+            not_found("item_number")
+        bot.click()
+        bot.paste(product['item_number])
+   
+
+        if not bot.find( "name", matching=0.97, waiting_time=10000):
+            not_found("name")
+        bot.click()
+        bot.paste(product['name'])
         
+        if not bot.find( "category", matching=0.97, waiting_time=10000):
+            not_found("category")
+        bot.click()
+        bot.paste(product['category'])
         
-        # bot.paste(product['name'])
+        if not bot.find( "gtin", matching=0.97, waiting_time=10000):
+            not_found("gtin")
+        bot.click()
+        bot.paste(product['gtin'])
         
-       
-        # bot.paste(product['category'])
+        if not bot.find( "supplier_code", matching=0.97, waiting_time=10000):
+            not_found("supplier_code")
+        bot.click()
+        bot.paste(product['supplier_code'])
         
-       
-        # bot.paste(product['gtin'])
+        if not bot.find( "description", matching=0.97, waiting_time=10000):
+            not_found("description")
+        bot.click()
+        bot.paste(product['description'])
         
-       
-        # bot.paste(product['supplier_code'])
+        if not bot.find( "price", matching=0.97, waiting_time=10000):
+            not_found("price")
+        bot.click()
+        bot.paste(product['price'])
         
-       
-        # bot.paste(product['description'])
+        if not bot.find( "cost", matching=0.97, waiting_time=10000):
+            not_found("cost")
+        bot.click()
+        bot.paste(product['cost'])
         
-       
-        # bot.paste(product['price'])
-        
-       
-        # bot.paste(product['cost'])
         
         
         # bot.paste(product['allowance'])
@@ -98,7 +114,6 @@ def main():
        
         # bot.paste(product['stock'])
         
-    bot.wait(5000)
 
     
 
@@ -116,5 +131,7 @@ def not_found(label):
 
 if __name__ == '__main__':
     main()
+
+
 
 
