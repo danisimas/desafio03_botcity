@@ -24,12 +24,18 @@ https://documentation.botcity.dev/tutorials/python-automations/desktop/
 
 # Import for the Desktop Bot
 from botcity.core import DesktopBot
+from PIL import Image
+import os
 
 # Import for integration with BotCity Maestro SDK
 from botcity.maestro import *
 
 # Disable errors if we are not connected to Maestro
 BotMaestroSDK.RAISE_NOT_CONNECTED = False
+
+
+IMAGE_FOLDER = "images/"
+photo_list = ["photo1.jpg"]
 
 
 def read_json_file(filepath):
@@ -47,13 +53,41 @@ def save(bot):
 
 def click_produtos(bot, products):
     print("Click produtos")
+    
+    image_path = os.path.join(IMAGE_FOLDER, photo_list[0])
+
+    if os.path.exists(image_path):
+        try:
+            print(f"Imagem válida encontrada: {image_path}")
+        except Exception as e:
+            print(f"Erro ao abrir a imagem {image_path}: {e}")
+            return  
+
+    if not bot.find( "select_picture", matching=0.97, waiting_time=10000):
+        not_found("select_picture")
+    bot.click()
+
+    if not bot.find( "image_selected", matching=0.97, waiting_time=10000):
+        not_found("image_selected")
+    bot.click()
+    bot.paste(photo_list[0])
+    
+    if not bot.find( "close_bttn", matching=0.97, waiting_time=10000):
+        not_found("close_bttn")
+    bot.click()
+    
+    
+    bot.wait(3000)
+
     save(bot)
     if len(products) >=1:
-            bot.wait(5000)
+            bot.wait(2000)
             if not bot.find( "click_produtos", matching=0.97, waiting_time=10000):
                 not_found("click_produtos")
             bot.click()
-    
+    else:
+        bot.close()
+   
 
 
 
