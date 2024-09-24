@@ -1,3 +1,4 @@
+
 """
 WARNING:
 
@@ -36,6 +37,86 @@ def read_json_file(filepath):
         data = json.load(file)
     return data['load']['products']
 
+
+def save(bot):
+    print("Save")
+    if not bot.find( "save", matching=0.97, waiting_time=10000):
+        not_found("save")
+    bot.click()
+
+
+def click_produtos(bot, products):
+    print("Click produtos")
+    save(bot)
+    if len(products) >=1:
+            bot.wait(5000)
+            if not bot.find( "click_produtos", matching=0.97, waiting_time=10000):
+                not_found("click_produtos")
+            bot.click()
+    
+
+
+
+
+
+def products_list(bot,products):
+     for product in products:
+        if not bot.find( "item_number", matching=0.97, waiting_time=10000):
+            not_found("item_number")
+        bot.click()
+        bot.paste(product['item_number'])
+            
+        if not bot.find( "nome", matching=0.97, waiting_time=10000):
+            not_found("nome")
+        bot.click()
+        bot.paste(product['name'])
+            
+        if not bot.find( "category", matching=0.97, waiting_time=10000):
+            not_found("category")
+        bot.click()
+        bot.paste(product['category'])
+            
+        if not bot.find( "gtin", matching=0.97, waiting_time=10000):
+            not_found("gtin")
+        bot.click()
+        bot.paste(product['gtin'])
+            
+        if not bot.find( "supplier_code", matching=0.97, waiting_time=10000):
+            not_found("supplier_code")
+        bot.click()
+        bot.paste(product['supplier_code'])
+            
+        if not bot.find( "description", matching=0.97, waiting_time=10000):
+            not_found("description")
+        bot.click()
+        bot.paste(product['description'])
+            
+            
+        if not bot.find( "price", matching=0.97, waiting_time=10000):
+            not_found("price")
+        bot.click()
+        bot.paste(product['price'])
+            
+        if not bot.find( "cost", matching=0.97, waiting_time=10000):
+            not_found("cost")
+        bot.click()
+        bot.paste(product['cost'])
+            
+            
+        if not bot.find( "allowance", matching=0.97, waiting_time=10000):
+            not_found("allowance")
+        bot.click()
+        bot.paste(product['allowance'])
+            
+        if not bot.find( "stock", matching=0.97, waiting_time=10000):
+            not_found("stock")
+        bot.click()
+        bot.paste(product['stock'])
+        
+        print(products)
+        click_produtos(bot,products)
+
+
 def main():
     # Runner passes the server url, the id of the task being executed,
     # the access token and the parameters that this task receives (when applicable).
@@ -55,68 +136,22 @@ def main():
 
     products = read_json_file(r'resources\desafio03.json')
     
-    if not bot.find( "click_produto", matching=0.97, waiting_time=10000):
-        not_found("click_produto")
+   
+    if not bot.find( "produtos", matching=0.97, waiting_time=10000):
+        not_found("produtos")
     bot.click()
     
     
     bot.wait(5000)
     
+    products_list(bot, products)
     
-    for product in products:
-        if not bot.find( "item_number", matching=0.97, waiting_time=10000):
-            not_found("item_number")
-        bot.click()
-        bot.paste(product['item_number])
-   
-
-        if not bot.find( "name", matching=0.97, waiting_time=10000):
-            not_found("name")
-        bot.click()
-        bot.paste(product['name'])
-        
-        if not bot.find( "category", matching=0.97, waiting_time=10000):
-            not_found("category")
-        bot.click()
-        bot.paste(product['category'])
-        
-        if not bot.find( "gtin", matching=0.97, waiting_time=10000):
-            not_found("gtin")
-        bot.click()
-        bot.paste(product['gtin'])
-        
-        if not bot.find( "supplier_code", matching=0.97, waiting_time=10000):
-            not_found("supplier_code")
-        bot.click()
-        bot.paste(product['supplier_code'])
-        
-        if not bot.find( "description", matching=0.97, waiting_time=10000):
-            not_found("description")
-        bot.click()
-        bot.paste(product['description'])
-        
-        if not bot.find( "price", matching=0.97, waiting_time=10000):
-            not_found("price")
-        bot.click()
-        bot.paste(product['price'])
-        
-        if not bot.find( "cost", matching=0.97, waiting_time=10000):
-            not_found("cost")
-        bot.click()
-        bot.paste(product['cost'])
-        
-        
-        
-        # bot.paste(product['allowance'])
-        
-        
-        
-       
-        # bot.paste(product['stock'])
         
 
-    
+        
 
+      
+            
 
     # Uncomment to mark this task as finished on BotMaestro
     # maestro.finish_task(
@@ -131,6 +166,9 @@ def not_found(label):
 
 if __name__ == '__main__':
     main()
+
+
+
 
 
 
