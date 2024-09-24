@@ -34,8 +34,8 @@ from botcity.maestro import *
 BotMaestroSDK.RAISE_NOT_CONNECTED = False
 
 
-IMAGE_FOLDER = "images/"
-photo_list = ["photo1.jpg"]
+photo_list = [{"name": "PRODUCT DEMO 1", 'img': 'photo1.jpg'},
+              {"name": "PRODUCT DEMO 2", 'img': 'photo2.jpg'} ]
 
 
 def read_json_file(filepath):
@@ -51,10 +51,16 @@ def save(bot):
     bot.click()
 
 
+def get_image(product_name):
+    for photo in photo_list:
+        if photo['name'] == product_name:
+            return photo['img']
+
 def click_produtos(bot, products):
     print("Click produtos")
     
-    image_path = os.path.join(IMAGE_FOLDER, photo_list[0])
+    
+    image_path = get_image(product_name=products['name'])
 
     if os.path.exists(image_path):
         try:
@@ -70,7 +76,7 @@ def click_produtos(bot, products):
     if not bot.find( "image_selected", matching=0.97, waiting_time=10000):
         not_found("image_selected")
     bot.click()
-    bot.paste(photo_list[0])
+    bot.paste(image_path)
     
     if not bot.find( "close_bttn", matching=0.97, waiting_time=10000):
         not_found("close_bttn")
@@ -80,13 +86,6 @@ def click_produtos(bot, products):
     bot.wait(3000)
 
     save(bot)
-    if len(products) >=1:
-            bot.wait(2000)
-            if not bot.find( "click_produtos", matching=0.97, waiting_time=10000):
-                not_found("click_produtos")
-            bot.click()
-    else:
-        bot.close()
    
 
 
@@ -94,7 +93,11 @@ def click_produtos(bot, products):
 
 
 def products_list(bot,products):
-     for product in products:
+    for product in products:
+        if not bot.find( "click_produtos", matching=0.97, waiting_time=10000):
+            not_found("click_produtos")
+        bot.click()
+    
         if not bot.find( "item_number", matching=0.97, waiting_time=10000):
             not_found("item_number")
         bot.click()
@@ -147,8 +150,10 @@ def products_list(bot,products):
         bot.click()
         bot.paste(product['stock'])
         
-        print(products)
-        click_produtos(bot,products)
+        print(product)
+        click_produtos(bot,product)
+        
+    bot.stop()
 
 
 def main():
@@ -170,22 +175,8 @@ def main():
 
     products = read_json_file(r'resources\desafio03.json')
     
-   
-    if not bot.find( "produtos", matching=0.97, waiting_time=10000):
-        not_found("produtos")
-    bot.click()
-    
-    
-    bot.wait(5000)
-    
     products_list(bot, products)
     
-        
-
-        
-
-      
-            
 
     # Uncomment to mark this task as finished on BotMaestro
     # maestro.finish_task(
