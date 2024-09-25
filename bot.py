@@ -93,6 +93,7 @@ def click_produtos(bot, products):
 
 
 def products_list(bot,products):
+    bot.wait(5000)
     for product in products:
         if not bot.find( "click_produtos", matching=0.97, waiting_time=10000):
             not_found("click_produtos")
@@ -153,7 +154,6 @@ def products_list(bot,products):
         print(product)
         click_produtos(bot,product)
         
-    bot.stop()
 
 
 def main():
@@ -171,12 +171,13 @@ def main():
 
     bot.maximize_window()
     
-    bot.wait(6000)
+    bot.wait(3000)
 
     products = read_json_file(r'resources\desafio03.json')
     
     products_list(bot, products)
     
+
 
     # Uncomment to mark this task as finished on BotMaestro
     # maestro.finish_task(
